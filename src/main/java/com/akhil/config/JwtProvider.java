@@ -21,6 +21,8 @@ public class JwtProvider {
 
         // Set JWT claims
         String jwt = Jwts.builder()
+            .expiration(new Date(System.currentTimeMillis() + 24*60*60*1000 ))
+            .issuedAt(new Date(System.currentTimeMillis()))
             .claim("email", auth.getName())
             .signWith(key).compact(); // Convert JWT builder to string
 
@@ -29,11 +31,11 @@ public class JwtProvider {
 
     public String getEmailFromJwtToken(String jwt){
         jwt=jwt.substring(7);
-        Claims claims= Jwts.parserBuilder()
-        .setSigningKey(key)
-        .build()
-        .parseClaimsJws(jwt)
-        .getBody();
+        Claims claims= Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(jwt)
+            .getPayload();
 
         String email = String.valueOf(claims.get("email"));
 
