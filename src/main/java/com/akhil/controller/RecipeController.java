@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.akhil.model.Recipe;
@@ -26,10 +27,10 @@ public class RecipeController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/recipe/user/{userId}")
-    public Recipe createRecipe(@RequestBody Recipe recipe, @PathVariable Long userId) throws Exception{
+    @PostMapping("/api/recipe")
+    public Recipe createRecipe(@RequestBody Recipe recipe, @RequestHeader("Authorization") String jwt) throws Exception{
         
-        User user=userService.findUserById(userId);
+        User user=userService.findUserByJwt(jwt);
         
         Recipe createdRecipe = recipeService.createRecipe(recipe, user);
         return createdRecipe;
@@ -56,10 +57,10 @@ public class RecipeController {
         Recipe updatedRecipe = recipeService.updateRecipe(recipe, id);
         return updatedRecipe;
     }
-    @PutMapping("/api/recipe/{id}/user/{userId}")
-    public Recipe likeRecipe(@PathVariable Long userId, @PathVariable Long id) throws Exception{
+    @PutMapping("/api/recipe/{id}/like")
+    public Recipe likeRecipe(@RequestHeader("Authorization") String jwt, @PathVariable Long id) throws Exception{
         
-        User user=userService.findUserById(userId);
+        User user=userService.findUserByJwt(jwt);
 
         Recipe updatedRecipe = recipeService.likeRecipe(id, user);
         return updatedRecipe;
