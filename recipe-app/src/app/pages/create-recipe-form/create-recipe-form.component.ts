@@ -4,11 +4,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
+import { RecipeServiceService } from '../../services/Recipe/recipe-service.service';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-recipe-form',
   standalone: true,
-  imports: [FormsModule, MatRadioModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, MatRadioModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatDialogModule],
   templateUrl: './create-recipe-form.component.html',
   styleUrl: './create-recipe-form.component.scss'
 })
@@ -21,7 +23,16 @@ export class CreateRecipeFormComponent {
     image:""
   }
 
+  constructor(private recipeService: RecipeServiceService){}
+
   onSubmit = ()=>{
     console.log("values", this.recipeItem )
+    this.recipeService.createRecipe(this.recipeItem).subscribe()
+
   }
+
+  
+
+
+
 }

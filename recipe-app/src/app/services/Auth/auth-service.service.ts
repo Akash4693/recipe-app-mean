@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 })
 export class AuthServiceService {
 
-  private baseUrl = "http://localhost:5000/"
+  private baseUrl = "http://localhost:5000"
 
   constructor(private http:HttpClient) { }
 

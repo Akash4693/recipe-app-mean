@@ -1,4 +1,4 @@
-<h1 class="text-center pt-5">Update recipe: </h1>
+<h1 class="text-center pt-5">Update recipe: {{recipeItem.id}}</h1>
 <form (ngSubmit)="onSubmit()" class="w-[27rem] p-6 rounded-lg shadow-md">
 
   <div class="mb-4">
@@ -38,7 +38,7 @@
     </mat-form-field>
   </div>
   <div>
-    <button mat-raised-button color="primary" type="submit">
+    <button mat-dialog-close mat-raised-button color="primary" type="submit">
       Update
     </button>
   </div>

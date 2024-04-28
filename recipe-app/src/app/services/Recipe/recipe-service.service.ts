@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class RecipeServiceService {
-  private baseUrl = "http://localhost:5000/"
+  private baseUrl = "http://localhost:5000"
 
   constructor(private http:HttpClient) { }
 
@@ -51,6 +51,30 @@ export class RecipeServiceService {
       const updatedRecipes = currentState.recipes.map((item:any)=>{
           item.id===updatedRecipe.id? updatedRecipe: item
       })
+      this.recipeSubject.next({...currentState, recipes: updatedRecipes})
+    })
+    )
+  }
+
+  likeRecipes(id:any):Observable<any>{
+    const headers = this.getHeaders()
+    return this.http.put(`${this.baseUrl}/api/recipe/${id}/like`, {headers}).pipe(
+    tap((updatedRecipe:any)=>{
+      const currentState = this.recipeSubject.value
+      const updatedRecipes = currentState.recipes.map((item:any)=>{
+          item.id===updatedRecipe.id? updatedRecipe: item
+      })
+      this.recipeSubject.next({...currentState, recipes: updatedRecipes})
+    })
+    )
+  }
+
+  deleteRecipes(id:any):Observable<any>{
+    const headers = this.getHeaders()
+    return this.http.delete(`${this.baseUrl}/api/recipe/${id}`, {headers}).pipe(
+    tap((deletedRecipe:any)=>{
+      const currentState = this.recipeSubject.value
+      const updatedRecipes = currentState.recipes.filter((item:any)=>item.id !== id)
       this.recipeSubject.next({...currentState, recipes: updatedRecipes})
     })
     )

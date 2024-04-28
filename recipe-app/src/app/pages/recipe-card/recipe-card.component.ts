@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 
 import {MatIconModule} from '@angular/material/icon';
 import { UpdateRecipeComponent } from '../update-recipe/update-recipe.component';
+import { RecipeServiceService } from '../../services/Recipe/recipe-service.service';
+import { AuthServiceService } from '../../services/Auth/auth-service.service';
 
 @Component({
   selector: 'app-recipe-card',
@@ -15,10 +17,36 @@ import { UpdateRecipeComponent } from '../update-recipe/update-recipe.component'
 })
 export class RecipeCardComponent {
 
-     constructor(public dialog:MatDialog) { }
+     user:any=null;
+
+     @Input() recipe:any
+
+     constructor(public dialog:MatDialog, private recipeService: RecipeServiceService, public authService: AuthServiceService) { }
 
      handleOpenEditRecipeForm(){
-      this.dialog.open(UpdateRecipeComponent)
+      this.dialog.open(UpdateRecipeComponent, {
+      data: this.recipe
+      })
      }
+
+     handleDeleteRecipe(){
+      this.recipeService.deleteRecipes(this.recipe.id).subscribe(()=>{
+
+      })
+
+    }
+    handleLikeRecipe(){
+      this.recipeService.likeRecipes(this.recipe.id).subscribe()
+    }
+
+
+
+  ngOnInit(){
+    this.authService.authSubject.subscribe(
+      (auth)=>{
+        this.user=auth.user
+      }
+    )
+  }
 
 }
