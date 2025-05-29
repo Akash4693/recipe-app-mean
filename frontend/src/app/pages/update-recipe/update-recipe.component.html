@@ -1,0 +1,60 @@
+<h1 class="text-center pt-5">Update recipe: {{ recipeItem.id }}</h1>
+<form
+  (ngSubmit)="onSubmit()"
+  class="w-[27rem] p-6 rounded-lg shadow-md"
+>
+  <div class="mb-4">
+    <mat-form-field class="w-full">
+      <mat-label class="text-gray-200">Title</mat-label>
+      <input
+        matInput
+        placeholder="title"
+        name="title"
+        [(ngModel)]="recipeItem.title"
+        class="py-2 px-3 text-gray-200 mt-1"
+      />
+    </mat-form-field>
+  </div>
+  <div class="mb-4">
+    <mat-form-field class="w-full">
+      <mat-label class="text-gray-200">Description</mat-label>
+      <input
+        matInput
+        placeholder="description"
+
+        name="description"
+        [(ngModel)]="recipeItem.description"
+        class="py-2 px-3 text-gray-200 mt-1"
+      />
+    </mat-form-field>
+  </div>
+  <div class="mb-4">
+    <mat-radio-group
+      value="recipeItem.foodType"
+      name="foodType"
+      [(ngModel)]="recipeItem.foodType"
+      aria-label="Select an option"
+    >
+      <mat-radio-button value="veg">Vegetarian</mat-radio-button>
+      <mat-radio-button value="non_veg">Non vegetarian</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="mb-4">
+    <mat-form-field class="w-full">
+      <mat-label class="text-gray-200">Image</mat-label>
+      <input
+        matInput
+        placeholder="image url"
+        
+        name="image"
+        [(ngModel)]="recipeItem.image"
+        class="py-2 px-3 text-gray-200 mt-1"
+      />
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-dialog-close mat-raised-button color="primary" type="submit">
+      Update
+    </button>
+  </div>
+</form>
